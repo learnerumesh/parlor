@@ -1,0 +1,50 @@
+{% extends "posApp/base.html" %} 
+{% block pageContent %}
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-10">
+    <div class="mdc-card">
+        <div class="modal-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3 mt-3">
+                  <label for="fullname" class="form-label">Full Name</label>
+                  <input type="text" class="form-control" id="fullname" placeholder="Enter Full Name" name="fullName" value="{{emp.Full_Name}}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" placeholder="Enter Address" name="address" value="{{emp.Address}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Contact</label>
+                    <input type="number" class="form-control" id="contact" placeholder="Enter Contact" name="contact" value="{{emp.Contact}}" required>
+                  </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <input type="text" class="form-control" id="role" placeholder="Enter Role for Company" name="role" value="{{emp.Role}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" aria-label="Default select example" id="gender" required name="gender">
+                        <option value="{{emp.Gender}}" selected>{{emp.Gender}}</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                      </select>
+                  </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" class="form-control" id="salary" placeholder="Enter Salary" name="salary" value="{{emp.Salary}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="joinDate" class="form-label">Joined Date</label>
+                    <input type="date" class="form-control" id="joinedDate" placeholder="Joined Date" name="joinedDate" value="{{emp.Joined_Date|date:'Y-m-d'}}" required>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'employee-page' %}"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></a>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+        </div>
+  </div>
+  </div>
+
+{% endblock pageContent %}

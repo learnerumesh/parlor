@@ -1,0 +1,151 @@
+{% extends "posApp/base.html" %} 
+{% block pageContent %}
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+    <div class="mdc-card py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="card-title mb-0">Salary Record of : {{name}}</h4>
+            <div class="text-start">
+                <button class="btn btn-primary bg-gradient btn-sm rounded-2" id="create_new" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="mdi mdi-plus"></i><span> Add Payroll</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+    <div class="mdc-card">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <colgroup>
+                    <col width="5%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="15%">
+                    </colgroup>
+                <thead>
+                    <tr>
+                        <th class="text-center py-1">#</th>
+                        <th class="text-center py-1">From Date</th>
+                        <th class="text-center py-1">To Date</th>
+                        <th class="text-center py-1">Given Salary</th>
+                        <th class="text-center py-1">Payment Method</th>
+                        <th class="text-center py-1">Paid On</th>
+                        <th class="text-center py-1">Remarks</th>
+                        <th class="text-center py-1">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sal in salary %}
+                    <tr>
+                        <td class="px-2 py-1 text-center">{{ forloop.counter }}</td>
+                        <td class="px-2 py-1 text-center">{{ sal.From_Date }}</td>
+                        <td class="px-2 py-1 text-center">{{ sal.To_Date }}</td>
+                        <td class="px-2 py-1 text-start">Rs. {{ sal.Amount }} /-</td>
+                        <td class="px-2 py-1 text-start">{{ sal.Payment_Method }}</td>
+                        <td class="px-2 py-1 text-start">{{ sal.Paid_Date }}</td>
+                        <td class="px-2 py-1 text-start">{{ sal.Remarks }}</td>
+                        <td class="px-2 py-1 text-center">
+                            <button class="mdc-button mdc-button--raised p-1 icon-button filled-button--light mdc-ripple-upgraded edit-data" type="button"  title="Edit">
+                                <a href="{% url 'edit_salary' sal.id sal.Empid.id name %}"><i class="material-icons mdc-button__icon">edit</i></a>
+                                <a href="#"></a>
+                            </button>
+                            {% if user.is_superuser %}
+                            <button class="mdc-button mdc-button--raised p-1 icon-button filled-button--danger mdc-ripple-upgraded delete-data data-bs-toggle=" data-bs-target="#confirmModal" type="button"  title="Delete"
+                            data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            <i class="material-icons mdc-button__icon text-white text-center">deleteoutline</i>
+                                <!-- <p>url 'delete_salary' sal.id sal.Empid.id name</p> -->
+                            </button>
+                            <!-- Delte confirm modal start -->
+                                <div class="modal fade" id="confirmModal">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                        <h4 class="modal-title">Confirm Delete?</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                        Selecting Yes will permanently delete the data.
+                                        </div>
+                                
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <a href="{% url 'delete_salary' sal.id sal.Empid.id name %}"><button type="button" class="btn btn-danger">Yes</button></a>
+                                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- delete confirm modal end -->
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- New Payroll Modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Payroll for : {{name}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3 mt-3">
+                  <label for="fromDate" class="form-label">From Date</label>
+                  <input type="date" class="form-control" id="fromDate" placeholder="From Date" name="fromDate" required>
+                </div>
+                <div class="mb-3">
+                  <label for="toDate" class="form-label">To Date</label>
+                  <input type="date" class="form-control" id="toDate" placeholder="To Date" name="toDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" placeholder="Enter Amount" name="amount" required>
+                  </div>
+                <div class="mb-3">
+                    <label for="paidDate" class="form-label">Paid On</label>
+                    <input type="date" class="form-control" id="role" placeholder="Salary Paid Date" name="paidDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentMethod" class="form-label">Payment Method</label>
+                    <select class="form-select" aria-label="Default select example" id="paymentMethod" required name="paymentMethod">
+                        <option selected value="Cash">Cash</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Online">Online</option>
+                      </select>
+                  </div>
+                 <div class="mb-3">
+                    <label for="remarks" class="form-label">Remarks</label>
+                    <input type="text" class="form-control" id="remarks" placeholder="Remarks" name="remarks" required>
+                    <!-- <textarea id="remarks" name="remarks" rows="4" cols="50" placeholder="Remarks"></textarea> -->
+                </div>
+                <!--
+                <div class="mb-3">
+                    <label for="joinedDate" class="form-label">Joined Date</label>
+                    <input type="date" class="form-control" id="joinedDate" placeholder="Joined Date" name="joinedDate" required>
+                </div> -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+              </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock pageContent %}

@@ -1,0 +1,191 @@
+{% extends "posApp/base.html" %} {% load humanize %} {% block pageContent %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+    <div class="mdc-card">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title mb-0">Dashboard</h4>
+        </div>
+    </div>
+</div>
+<!-- <div class="container-fluid">
+    <div class="row">
+    <div class="col-sm-6"><div style="height: auto; width:400px; padding:5px; background-color:white;"><canvas id="myChart"></canvas></div></div>
+    <div class="col-sm-6"><div style="height: auto; width:400px; padding:5px; background-color:rgb(198, 67, 67);">Hello world</div></div>
+    
+  </div>
+</div> -->
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+    <hr class="w-100">
+</div>
+
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-6-tablet">
+    <div class="mdc-card info-card info-card--success">
+        <div class="card-inner">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-6-tablet">
+    <div class="mdc-card info-card info-card--success">
+        <div class="card-inner">
+            <canvas id="myChart1"></canvas>
+        </div>
+    </div>
+</div>
+
+<!--  -->
+
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+    <hr class="w-100">
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--success">
+        <div class="card-inner">
+            <h5 class="card-title">Categories</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ categories|intcomma }}</h5>
+            <p class="tx-12 text-muted">Over All Count of Categories</p>
+            <div class="card-icon-wrapper">
+                <i class="material-icons">list</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--primary">
+        <div class="card-inner">
+            <h5 class="card-title">Products</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ products|intcomma }}</h5>
+            <p class="tx-12 text-muted">Over All Count of Products</p>
+            <div class="card-icon-wrapper">
+                <i class="material-icons">label</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--info">
+        <div class="card-inner">
+            <h5 class="card-title">Today's Transactions</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ transaction|intcomma }}</h5>
+            <p class="tx-12 text-muted">Over All Count of Today's Transactions</p>
+            <div class="card-icon-wrapper">
+                <i class="material-icons">receipt</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--warning">
+        <div class="card-inner">
+            <h5 class="card-title">Today's Sales</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ total_sales|intcomma }}</h5>
+            <p class="tx-12 text-muted">Total Sales Today</p>
+            <div class="card-icon-wrapper">
+                <i class="mdi mdi-cash"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--info">
+        <div class="card-inner">
+            <h5 class="card-title">This Month's Sales</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ this_month|intcomma }}</h5>
+            <p class="tx-12 text-muted">Total Sales This Month</p>
+            <div class="card-icon-wrapper">
+                <i class="mdi mdi-cash-multiple"></i>
+                <!-- <i class="material-icons">application-edit</i> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--primary">
+        <div class="card-inner">
+            <h5 class="card-title">Products Added This Month</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ this_month_product|intcomma }}</h5>
+            <p class="tx-12 text-muted">Over All Count of Products Added This Month</p>
+            <div class="card-icon-wrapper">
+                <i class="material-icons">label</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+    <div class="mdc-card info-card info-card--primary">
+        <div class="card-inner">
+            <h5 class="card-title">Salary Paid This Month</h5>
+            <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ month_salary|intcomma }}</h5>
+            <p class="tx-12 text-muted">Over All Sum of Salary Paid to Employees This Month</p>
+            <div class="card-icon-wrapper">
+                <i class="material-icons">label</i>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  -->
+
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [{% for a in dct %} '{{a}}', {% endfor %}],
+        
+        datasets: [{
+            label: 'Sales',
+            data: [{% for ww in dct1 %} '{{ww}}', {% endfor %}],
+            backgroundColor:    [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)'                
+            ],
+            borderColor: [
+                'rgba(253, 127, 111, 1)',
+                'rgba(126, 176, 213, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+    const myChart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: [{% for d in days %} '{{d}}', {% endfor %}],
+            
+            datasets: [{
+                label: 'Sales',
+                data: [{% for s in sales %} '{{s}}', {% endfor %}],
+                backgroundColor:    [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'                
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<!-- Script for today sales vs yesterday sales -->
+
+{% endblock pageContent %}

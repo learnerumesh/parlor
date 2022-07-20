@@ -1,0 +1,54 @@
+{% extends "posApp/base.html" %} 
+{% block pageContent %}
+
+<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-8">
+    <div class="mdc-card">
+        <div class="modal-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3 mt-3">
+                  <label for="fromDate" class="form-label">From Date</label>
+                  <input type="date" class="form-control" id="fromDate" placeholder="From Date" name="fromDate" value="{{sal.From_Date|date:'Y-m-d'}}" required>
+                </div>
+                <div class="mb-3">
+                  <label for="toDate" class="form-label">To Date</label>
+                  <input type="date" class="form-control" id="toDate" placeholder="To Date" name="toDate" value="{{sal.To_Date|date:'Y-m-d'}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" placeholder="Enter Amount" name="amount" value="{{sal.Amount}}" required>
+                  </div>
+                <div class="mb-3">
+                    <label for="paidDate" class="form-label">Paid On</label>
+                    <input type="date" class="form-control" id="role" placeholder="Salary Paid Date" name="paidDate" value="{{sal.Paid_Date|date:'Y-m-d'}}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentMethod" class="form-label">Payment Method</label>
+                    <select class="form-select" aria-label="Default select example" id="paymentMethod" required name="paymentMethod">
+                        <option value="{{sal.Payment_Method}}" selected>{{sal.Payment_Method}}</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Online">Online</option>
+                      </select>
+                  </div>
+                 <div class="mb-3">
+                    <label for="remarks" class="form-label">Remarks</label>
+                    <input type="text" class="form-control" id="remarks" placeholder="Remarks" name="remarks" value="{{sal.Remarks}}" required>
+                    <!-- <textarea id="remarks" name="remarks" rows="4" cols="50" placeholder="Remarks"></textarea> -->
+                </div>
+                <!--
+                <div class="mb-3">
+                    <label for="joinedDate" class="form-label">Joined Date</label>
+                    <input type="date" class="form-control" id="joinedDate" placeholder="Joined Date" name="joinedDate" required>
+                </div> -->
+                <div class="modal-footer">
+                    <a href="{% url 'salary' emp_id name %}"><button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button></a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+              </form>
+        </div>
+  </div>
+  </div>
+   
+
+{% endblock pageContent %}
